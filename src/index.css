@@ -8,11 +8,6 @@ body {
   -moz-osx-font-smoothing: grayscale;
   background-color: #FFF;
 }
-
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
-}
 /*#container{
   display: flex;
   justify-content: center;
