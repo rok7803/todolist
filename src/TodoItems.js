@@ -131,10 +131,10 @@ class TodoItems extends Component {
 		this.clearItems();
         const todoEntries = this.props.entries;
         const listItems = todoEntries.map(this.createTasks);
-		const items = this.state.items;
+		/*const items = this.state.items;
 		this.setState({
 			items: listItems
-		});
+		});*/
     
         return (
 			<div>
