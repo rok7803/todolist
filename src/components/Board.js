@@ -1,28 +1,36 @@
-import React from 'react';
+import React, {Component} from 'react';
 
-function Board(props){
-	const drop = e =>{
+class Board extends Component {
+    constructor(props) {
+			super(props)
+			
+			this.drop = this.drop.bind(this);
+			this.dragOver = this.drop.bind(this);
+      }
+	drop (e) {
 		e.preventDefault();
 		const card_id = e.dataTransfer.getData('card_id');
 		
 		const card = document.getElementById(card_id);
-		card.style.display = 'block';
+		//card.style.display = 'block';
 		
 		e.target.appendChild(card);
 	}
-	const dragOver = e => {
+	dragOver (e) {
 		e.preventDefault();
 	}
-	return (
-		<div
-			id={props.id}
-			className={props.className}
-			onDrop={drop}
-			onDragOver={dragOver}
-		>
-			{props.children}
-		</div>
-	)
+	render(){
+		return (
+			<div
+				id={this.props.id}
+				className={this.props.className}
+				onDrop={this.drop}
+				onDragOver={this.dragOver}
+			>
+				{this.props.children}
+			</div>
+		);
+	}
 }
 
 export default Board
