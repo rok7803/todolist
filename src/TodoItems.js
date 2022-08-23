@@ -4,13 +4,15 @@ import './TodoItems.css';
 class TodoItems extends Component {
     constructor(props) {
         super(props);
-		
+		this.ref = React.createRef();
 		this.state = {
 			items: [],
-			dropElmtDown: [],
+			dropElmtAbove: [],
+			dropElmtUnder: [],
+			elements: [],
 			completedTasks: [],
 			draggedTask: {}
-		}
+		} 
 		//this.onDrag = this.onDrag.bind(this);
 		//this.onDrop = this.onDrop.bind(this);
 		//this.onDragOver = this.onDragOver.bind(this);
@@ -43,7 +45,7 @@ class TodoItems extends Component {
 		ev.preventDefault();
 	}
 
-	drag(ev, item) {
+	drag(ev) {
 		//ev.screenY gets 150
 		//ev.target.screenY undefined (!needs ev. MouseEvent?)
 		//console.log('INSIDE drag:',ev.screenY);
@@ -54,28 +56,70 @@ class TodoItems extends Component {
 		//ev.target.offsetTop gets 0 
 		//console.log('INSIDE drag:',ev.offsetTop);
 		//console.log('INSIDE drag:',item.key);
-		console.log('INSIDE drag:',ev.target.id);
-		let dropElmt = this.state.dropElmt;
-		dropElmt.push({id: ev.target.id});
-		this.setState({
-			dropElmt: dropElmt
-		});
+		//console.log('INSIDE drag:',ev.target.id);
+		//console.log('INSIDE drag:',this.ref.current);
+		ev.dataTransfer.setData("card_id", ev.target.id);
+		/*const dropElmtUnder = this.state.dropElmtUnder;
+		const elements = this.state.elements;
+		dropElmtUnder.push(elements);
+		this.setState=({
+			dropElmtUnder: dropElmtUnder
+		});*/
+		//console.log('INSIDE drag; ev.target.id:', ev.target.id);
+		//ev.preventDefault();
+		//const elements = this.state.elements;
+		//const element = elements.map(index => {return index});
+		//this.setState=({
+			//draggedTask: item
+		//});
+		//const draggedTask = this.state.draggedTask;
+		//console.log('draggedTask',draggedTask);
 	}
 
 	drop(ev) {
-		ev.preventDefault();
-		var data = ev.dataTransfer.getData("text");
-		console.log('INSIDE drop: ',data);
-		let dropElmt = this.state.dropElmtDown;
-		ev.target.appendChild(document.getElementById(data));
+		//ev.preventDefault();
+		//const data = ev.dataTransfer.getData("text");
+		//console.log('INSIDE drop; data: ', data);
+		//ev.target = this.ref.current;
+		//const elements = this.state.elements;
+		//const data = this.ref.current;
+		//console.log('INSIDE drop; data: ', data);
+		//const elements = this.state.elements;
+		//elements.push(data);
+		//this.setState=({
+			//elements: data
+		//});
+		//this.clearItems();
+		const card_id = ev.dataTransfer.getData("text");
+		const card = document.getElementById(card_id);
+		card.style.display = 'block';
+		ev.target.appendChild(card);
+		//console.log('INSIDE drop: ',data);
+		/*const dropElmtUnder = this.state.dropElmtUnder;
+		const elements = this.state.elements;
+		dropElmtUnder.push(elements);
+		this.setState=({
+			dropElmtUnder: dropElmtUnder
+		});*/
+		/*console.log('INSIDE drop; ev.target.id:', ev.target.id);
+		const { items, completedTasks, draggedTask } = this.state;
+		this.setState=({
+			completedTasks: [...completedTasks, draggedTask],
+			items: items.filter( item => item.key !== draggedTask.key),
+			draggedTask: {},
+		});*/
 	}
 	clearItems(){
 		let items = this.state.items;
+		let elements = this.state.elements;
 		items.length = 0;
+		elements.length = 0;
 		this.setState=({
-			items: items
+			items: items,
+			elements: elements
 		});
 		console.log('clearITEMS; this.state.items: ',this.state.items)
+		console.log('clearITEMS; this.state.elements: ',this.state.elements)
 		//let items = this.state.items;
 		//items = [];
 		//this.state.items = [];
@@ -85,7 +129,9 @@ class TodoItems extends Component {
     }
     createTasks(item) {
 		//this.deleteItems();
-		let items = this.state.items;
+		const items = this.state.items;
+		//const elements = this.state.elements;
+		//const dropElmtUnder = this.state.dropElmtUnder;
 		
 		console.log('CREATETASKS: items.length | item.key: ',items.length,' | ',item.key);
 		
@@ -109,7 +155,7 @@ class TodoItems extends Component {
 		//console.log(this.state.items);
 		//this.deleteItems();
 		return (
-			<li key={item.key} id={'id-key:'+item.key} draggable onDragStart={(e) => this.drag(e, item)} >
+			<li key={item.key} ref={this.ref} id={'id-key:'+item.key} draggable onDrag={(e) => this.drag(e)} >
 				<button onClick={() => this.delete(item.key)}>
 					<svg width="24" height="24" viewBox="0 0 24 24">
 						<path d="M0 0h24v24H0z" fill="none"></path>
@@ -122,6 +168,13 @@ class TodoItems extends Component {
 				</label>
 			</li>   
 		);
+		
+		//elements.push(element);
+		//dropElmtUnder.push(element);
+		//this.setState = ({
+			//elements: elements,
+			//dropElmtUnder: dropElmtUnder
+		//});
     }
     render() {
 		//console.log(this.props.entries.key);
@@ -131,10 +184,17 @@ class TodoItems extends Component {
 		this.clearItems();
         const todoEntries = this.props.entries;
         const listItems = todoEntries.map(this.createTasks);
-		const items = this.state.items;
-		this.setState({
-			items: listItems
-		});
+		//todoEntries.forEach(this.createTasks);
+		//const elements = this.state.elements;
+		//const listItemsDropped = elements.map(index => {return index});
+		//const dropElmtUnder = this.state.dropElmtUnder;
+		//const listItemsDragged = dropElmtUnder.map(index => {return index.id});
+		//console.log('listItemsDragged: ',listItemsDragged);
+		//const completedTasks = this.state.completedTasks;
+		//const listItemsDragged = completedTasks.map(index => {return index});
+		//const draggedTask = this.state.draggedTask;
+		//console.log('draggedTask',draggedTask);
+		//console.log('listItemsDropped',listItemsDropped);
     
         return (
 			<div>
@@ -146,12 +206,15 @@ class TodoItems extends Component {
 						{listItems}
 					</ul>
 				</div>
-				<div className='div-list-done'>
+				<div className='div-list-done'
+						//onDragOver={e => this.allowDrop(e)}
+						//onDrop={e => this.drop(e)}
+						>
 					<ul className="theList-done"
 						onDragOver={e => this.allowDrop(e)}
 						onDrop={e => this.drop(e)}
 						>
-
+						
 					</ul>
 				</div>
 			</div>
