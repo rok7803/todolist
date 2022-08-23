@@ -7,6 +7,7 @@ class TodoItems extends Component {
 		
 		this.state = {
 			items: [],
+			dropElmtDown: [],
 			completedTasks: [],
 			draggedTask: {}
 		}
@@ -16,7 +17,7 @@ class TodoItems extends Component {
 		this.allowDrop = this.allowDrop.bind(this);
 		this.drag = this.drag.bind(this);
 		this.drop = this.drop.bind(this);
-		this.deleteItems = this.deleteItems.bind(this);
+		this.clearItems = this.clearItems.bind(this);
         this.createTasks = this.createTasks.bind(this);
 		//this.completedTasks = this.completedTasks.bind(this);
     }
@@ -42,24 +43,39 @@ class TodoItems extends Component {
 		ev.preventDefault();
 	}
 
-	drag(ev) {
-		console.log(ev.target.key);
-		ev.dataTransfer.setData("text", ev.target.key);
+	drag(ev, item) {
+		//ev.screenY gets 150
+		//ev.target.screenY undefined (!needs ev. MouseEvent?)
+		//console.log('INSIDE drag:',ev.screenY);
+		//ev.clientY gets 71
+		//ev.target.clientY undefined (!needs ev. MouseEvent?)
+		//console.log('INSIDE drag:',ev.clientY);
+		//ev.offsetTop undefined needs ev. MouseEvent
+		//ev.target.offsetTop gets 0 
+		//console.log('INSIDE drag:',ev.offsetTop);
+		//console.log('INSIDE drag:',item.key);
+		console.log('INSIDE drag:',ev.target.id);
+		let dropElmt = this.state.dropElmt;
+		dropElmt.push({id: ev.target.id});
+		this.setState({
+			dropElmt: dropElmt
+		});
 	}
 
 	drop(ev) {
 		ev.preventDefault();
 		var data = ev.dataTransfer.getData("text");
-		console.log(data);
+		console.log('INSIDE drop: ',data);
+		let dropElmt = this.state.dropElmtDown;
 		ev.target.appendChild(document.getElementById(data));
 	}
-	deleteItems(){
+	clearItems(){
 		let items = this.state.items;
 		items.length = 0;
 		this.setState=({
 			items: items
 		});
-		console.log('deleteITEMS; this.state.items: ',this.state.items)
+		console.log('clearITEMS; this.state.items: ',this.state.items)
 		//let items = this.state.items;
 		//items = [];
 		//this.state.items = [];
@@ -81,7 +97,10 @@ class TodoItems extends Component {
 					console.log('UNDEFINED!');
 					console.log('else if: item.key: ', item.key);
 					console.log('else if: i | items.length: ', i,' | ',items.length);
-					items.push({key: item.key, text: item.text});
+					items.push({key: item.key, id:'id-key:'+item.key ,text: item.text, addTo: 1});
+					this.setState=({
+						items: items
+					});
 					//completedTasks.push(item.key);
 				//}
 			}
@@ -90,7 +109,7 @@ class TodoItems extends Component {
 		//console.log(this.state.items);
 		//this.deleteItems();
 		return (
-			<li key={item.key} draggable onDragStart={(e) => this.drag(e)} >
+			<li key={item.key} id={'id-key:'+item.key} draggable onDragStart={(e) => this.drag(e, item)} >
 				<button onClick={() => this.delete(item.key)}>
 					<svg width="24" height="24" viewBox="0 0 24 24">
 						<path d="M0 0h24v24H0z" fill="none"></path>
@@ -109,9 +128,13 @@ class TodoItems extends Component {
 		/*this.setState=({
 			key: this.props.entries.key,
 		});*/
-		this.deleteItems();
-        var todoEntries = this.props.entries;
-        var listItems = todoEntries.map(this.createTasks);
+		this.clearItems();
+        const todoEntries = this.props.entries;
+        const listItems = todoEntries.map(this.createTasks);
+		const items = this.state.items;
+		this.setState({
+			items: listItems
+		});
     
         return (
 			<div>
@@ -128,6 +151,7 @@ class TodoItems extends Component {
 						onDragOver={e => this.allowDrop(e)}
 						onDrop={e => this.drop(e)}
 						>
+
 					</ul>
 				</div>
 			</div>
