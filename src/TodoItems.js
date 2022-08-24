@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import './TodoItems.css';
  
 class TodoItems extends Component {
-    constructor(props) {
+    /*constructor(props) {
         super(props);
 		this.ref = React.createRef();
 		this.state = {
@@ -20,7 +20,7 @@ class TodoItems extends Component {
         this.createTasks = this.createTasks.bind(this);
 		//this.completedTasks = this.completedTasks.bind(this);
     }
-	onDrag(e){
+	onDrag(e, item){
 		let elementToDragId = this.state.elementToDragId;
 		let elementToDrag = this.state.elementToDrag;
 		const elements = this.state.elements;
@@ -49,23 +49,63 @@ class TodoItems extends Component {
 			elementToDrag: elementToDrag,
 			elementToDragId: elementToDragId
 		});
+	}*/
+	constructor(props) {
+		super(props);
+		this.state = {
+		  todos: [],
+		  completedTasks: [],
+		  draggedTask: {}
+		}
+		this.onDrag = this.onDrag.bind(this);
+		this.onDrop = this.onDrop.bind(this);
+		this.onDragOver = this.onDragOver.bind(this);
+		this.clearItems = this.clearItems.bind(this);
+		this.createTasks = this.createTasks.bind(this);
+	}
+
+	onDrag(event, item){
+		event.preventDefault();
+		const todos = this.state.todos;
+		const idKey = 'id-key:'+item.key;
+		const todo = todos.filter( (index) => {
+			console.log('INSIDE onDrag; index.props.id | idKey: ',index.props.id,' | ', idKey);
+			return index.props.id === idKey? index:console.log('No todos');
+		});
+		console.log('INSIDE onDrag; todo: ',todo);
+		this.setState=({
+			draggedTask: todo
+		});
+	}
+
+	onDragOver(event){
+		event.preventDefault();
+	}
+
+	onDrop(event){
+		const { completedTasks, draggedTask, todos } = this.state;
+		this.setState=({
+			completedTasks: [...completedTasks, draggedTask],
+			todos: todos.filter(task => task.taskID !== draggedTask.taskID),
+			draggedTask: {},
+		});
 	}
 	clearItems(){
-		let elements = this.state.elements;
-		elements.length = 0;
+		let todos = this.state.todos;
+		todos.length = 0;
 		this.setState=({
-			elements: elements
+			todos: todos
 		});
-		console.log('clearITEMS; this.state.elements: ',this.state.elements);
+		console.log('clearITEMS; this.state.todos: ',this.state.todos);
 	}
     delete(key) {
         this.props.delete(key);
     }
     createTasks(item) {
-		const elements = this.state.elements;
+		const todos = this.state.todos;
 		
 		const element = (
-			<li key={item.key} ref={this.ref} id={'id-key:'+item.key} draggable onDrag={(e) => this.onDrag(e)} >
+			<li key={item.key} id={'id-key:'+item.key} draggable onDrag={(e) => this.onDrag(e, item)} >
 				<button onClick={() => this.delete(item.key)}>
 					<svg width="24" height="24" viewBox="0 0 24 24">
 						<path d="M0 0h24v24H0z" fill="none"></path>
@@ -79,41 +119,42 @@ class TodoItems extends Component {
 			</li>   
 		);
 		
-		elements.push(element);
+		todos.push(element);
 		
 		this.setState = ({
-			elements: elements
+			todos: todos
 		});
     }
     render() {
 		this.clearItems();
         const todoEntries = this.props.entries;
 		todoEntries.forEach(this.createTasks);
-		const elements = this.state.elements;
-		const listItems = elements.map(index => {return index})
-		const elementToDrag = this.state.elementToDrag;
-		const listItemsDropped = elementToDrag;
-		console.log('INSIDE render; listItemsDropped: ', listItemsDropped);
+		const {todos, completedTasks} = this.state;
+		const listItems = todos.map(index => {return index});
+		//const elementToDrag = this.state.elementToDrag;
+		const listItemsCompleted = completedTasks.map(index => {return index});
+		console.log('INSIDE render; listItems: ', listItems);
+		console.log('INSIDE render; listItemsCompleted: ', listItemsCompleted);
     
         return (
 			<div>
 				<div className='div-list'>
 					<ul className="theList"
-						onDragOver={e => this.onDragOver(e)}
-						onDrop={e => this.onDrop(e)}
+						//onDragOver={e => this.onDragOver(e)}
+						//onDrop={e => this.onDrop(e)}
 						> 
 						{listItems}
 					</ul>
 				</div>
 				<div className='div-list-done'
-						//onDragOver={e => this.allowDrop(e)}
-						//onDrop={e => this.drop(e)}
-						>
-					<ul className="theList-done"
 						onDragOver={e => this.onDragOver(e)}
 						onDrop={e => this.onDrop(e)}
 						>
-						{listItemsDropped}
+					<ul className="theList-done"
+						//onDragOver={e => this.onDragOver(e)}
+						//onDrop={e => this.onDrop(e)}
+						>
+						{listItemsCompleted}
 					</ul>
 				</div>
 			</div>
