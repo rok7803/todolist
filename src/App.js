@@ -1,25 +1,82 @@
-import React from 'react';
-import Board from './components/Board';
-import Card from './components/Card';
-import './main.css';
+import React, { Component } from 'react';
+import './App.css';
 
-function App(){
-	return (
-		<div className="App">
-			<main className="flexbox">
-				<Board id="board-1" className="board">
-					<Card id="card-1" className="card" draggable="true">
-						<p>Card one</p>
-					</Card>
-				</Board>
-				<Board id="board-2" className="board">
-					<Card id="card-2" className="card" draggable="true">
-						<p>Card two</p>
-					</Card>
-				</Board>
-			</main>
-		</div>
-	);
+class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      todos: [
+        {
+          taskID: 1,
+          task: 'Walk the walk'
+        },
+        {
+          taskID: 2,
+          task: 'Talk the talk'
+        },
+        {
+          taskID: 3,
+          task: 'Jump the jump'
+        }
+      ],
+      completedTasks: [],
+      draggedTask: {}
+    }
+  }
+
+  onDrag = (event, todo) => {
+    event.preventDefault();
+    this.setState({
+      draggedTask: todo
+    });
+  }
+
+  onDragOver = (event) => {
+    event.preventDefault();
+  }
+
+  onDrop = (event ) => {
+    const { completedTasks, draggedTask, todos } = this.state;
+    this.setState({
+      completedTasks: [...completedTasks, draggedTask],
+      todos: todos.filter(task => task.taskID !== draggedTask.taskID),
+      draggedTask: {},
+    })
+  }
+  render() {
+    const { todos, completedTasks} = this.state;
+    return (
+      <div className="App">
+        <div className="todos">
+          {
+            todos.map(todo =>
+              <div
+                key={todo.taskID}
+                draggable
+                onDrag={(event) => this.onDrag(event, todo)}
+                >
+                {todo.task}
+              </div>
+            )
+          }
+        </div>
+        <div
+          onDrop={event => this.onDrop(event)}
+          onDragOver={(event => this.onDragOver(event))}
+          className="done"
+        >
+          {completedTasks.map((task, index) =>
+            <div
+              key={task.taskID}
+            >
+              {task.task}
+            </div>
+          )}
+        </div>
+      </div>
+    );
+  }
 }
+
 export default App;
 	
