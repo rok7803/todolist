@@ -84,9 +84,10 @@ class TodoItems extends Component {
 
 	onDrop(event){
 		const { completedTasks, draggedTask, todos } = this.state;
+		console.log('INSIDE onDrop; draggedTask: ',draggedTask);
 		this.setState=({
 			completedTasks: [...completedTasks, draggedTask],
-			todos: todos.filter(task => task.taskID !== draggedTask.taskID),
+			todos: todos.filter(index => index.props.id !== draggedTask.id),
 			draggedTask: {},
 		});
 	}
