@@ -142,6 +142,7 @@ class TodoItems extends Component {
 		});
     }
     render() {
+		console.log('INSIDE render');
 		this.clearItems();
         const todoEntries = this.props.entries;
 		todoEntries.forEach(this.createTasks);
