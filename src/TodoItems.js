@@ -65,17 +65,24 @@ class TodoItems extends Component {
 	}
 
 	onDrag(event, item){
-		event.preventDefault();
+		//event.preventDefault();
 		const todos = this.state.todos;
+		let draggedTask = this.state.draggedTask;
 		const idKey = 'id-key:'+item.key;
-		const todo = todos.filter( (index) => {
+		let todo = todos.filter( (index) => {
 			console.log('INSIDE onDrag; index.props.id | idKey: ',index.props.id,' | ', idKey);
 			return index.props.id === idKey? index:console.log('No todos');
 		});
+		todo = todo[0];
 		console.log('INSIDE onDrag; todo: ',todo);
+		//draggedTask = draggedTask.assign({},todo);
+		draggedTask[0] = todo;
+		//console.log('INSIDE onDrag; draggedTask: ',draggedTask);
+		//draggedTask.assign({},todo);
 		this.setState=({
-			draggedTask: todo
+			draggedTask: draggedTask
 		});
+		//console.log('INSIDE onDrag; this.state.draggedTask: ',this.state.draggedTask);
 	}
 
 	onDragOver(event){
@@ -83,13 +90,21 @@ class TodoItems extends Component {
 	}
 
 	onDrop(event){
-		const { completedTasks, draggedTask, todos } = this.state;
-		console.log('INSIDE onDrop; draggedTask: ',draggedTask);
+		//event.preventDefault();
+		let { completedTasks, draggedTask, todos } = this.state;
+		todos = todos.filter(index => index.props.id !== draggedTask[0].props.id);
+		const draggedTaskElement = draggedTask[0];
+		console.log('INSIDE onDrop; draggedTaskElement: ',draggedTaskElement);
+		console.log('INSIDE onDrop; todos: ',todos);		
+		//console.log('INSIDE onDrop; todos[0].props.id | draggedTask[0].props.id: ',todos[0].props.id,'|',draggedTask[0].props.id);
+		completedTasks.push(draggedTaskElement);
+		console.log('INSIDE onDrop; completedTasks: ',completedTasks);
 		this.setState=({
-			completedTasks: [...completedTasks, draggedTask],
-			todos: todos.filter(index => index.props.id !== draggedTask.id),
-			draggedTask: {},
+			completedTasks: completedTasks,
+			todos: todos,
+			draggedTask: {}
 		});
+		//console.log('INSIDE onDrop; this.state.todos: ',this.state.todos);
 	}
 	clearItems(){
 		let todos = this.state.todos;
@@ -148,12 +163,12 @@ class TodoItems extends Component {
 					</ul>
 				</div>
 				<div className='div-list-done'
-						onDragOver={e => this.onDragOver(e)}
-						onDrop={e => this.onDrop(e)}
-						>
-					<ul className="theList-done"
 						//onDragOver={e => this.onDragOver(e)}
 						//onDrop={e => this.onDrop(e)}
+						>
+					<ul className="theList-done"
+						onDragOver={e => this.onDragOver(e)}
+						onDrop={e => this.onDrop(e)}
 						>
 						{listItemsCompleted}
 					</ul>
