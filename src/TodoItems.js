@@ -65,7 +65,7 @@ class TodoItems extends Component {
 	}
 
 	onDrag(event, item){
-		//event.preventDefault();
+		event.preventDefault();
 		const todos = this.state.todos;
 		let draggedTask = this.state.draggedTask;
 		const idKey = 'id-key:'+item.key;
