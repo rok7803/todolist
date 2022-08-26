@@ -23,13 +23,14 @@ class App extends Component{
 				<TodoList id='todolist-1' className='todolist'>
 					<TodoItem id='todoitem-1' className='todoitem'>
 						<TodoTask id={this.addDateToTask} className='todotask' />
-					<\TodoItem>
-				<\TodoList>
+					</TodoItem>
+				</TodoList>
 				<TodoList id='todolist-2' className='todolist'>
 					<TodoItem id='todoitem-2' className='todoitem'>
 						<TodoTask id={this.addDateToTask} className='todotask' />
-					<\TodoItem>
-				<\TodoList>
+					</TodoItem>
+				</TodoList>
+			</div>
 	
 }
 
