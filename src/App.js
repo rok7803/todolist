@@ -20,16 +20,13 @@ class App extends Component{
 	render(){
 		return(
 			<div className='App'>
-				<TodoList id='todolist-1' className='todolist'>
-					<TodoItem id='todoitem-1' className='todoitem'>
-						<TodoTask id={this.addDateToTask} className='todotask' />
-					</TodoItem>
-				</TodoList>
-				<TodoList id='todolist-2' className='todolist'>
-					<TodoItem id='todoitem-2' className='todoitem'>
-						<TodoTask id={this.addDateToTask} className='todotask' />
-					</TodoItem>
-				</TodoList>
+				<TodoList id='todolist-1' className='todolist'/>
+				<TodoItem id='todoitem-1' className='todoitem'>
+					<TodoTask id={this.addDateToTask} className='todotask' />
+				</TodoItem>
+				<TodoItem id='todoitem-2' className='todoitem'>
+					<TodoTask id={this.addDateToTask} className='todotask' />
+				</TodoItem>
 			</div>
 	
 }
