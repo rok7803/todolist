@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import TodoTasks from './TodoTasks'
 import './TodoItems.css';
  
 class TodoItems extends Component {
@@ -64,26 +65,6 @@ class TodoItems extends Component {
 		this.createTasks = this.createTasks.bind(this);
 	}
 
-	onDrag(event, item){
-		event.preventDefault();
-		const todos = this.state.todos;
-		let draggedTask = this.state.draggedTask;
-		const idKey = 'id-key:'+item.key;
-		let todo = todos.filter( (index) => {
-			console.log('INSIDE onDrag; index.props.id | idKey: ',index.props.id,' | ', idKey);
-			return index.props.id === idKey? index:console.log('No todos');
-		});
-		todo = todo[0];
-		console.log('INSIDE onDrag; todo: ',todo);
-		//draggedTask = draggedTask.assign({},todo);
-		draggedTask[0] = todo;
-		//console.log('INSIDE onDrag; draggedTask: ',draggedTask);
-		//draggedTask.assign({},todo);
-		this.setState=({
-			draggedTask: draggedTask
-		});
-		//console.log('INSIDE onDrag; this.state.draggedTask: ',this.state.draggedTask);
-	}
 
 	onDragOver(event){
 		event.preventDefault();
@@ -106,18 +87,16 @@ class TodoItems extends Component {
 		});
 		//console.log('INSIDE onDrop; this.state.todos: ',this.state.todos);
 	}
-	clearItems(){
+	/*clearItems(){
 		let todos = this.state.todos;
 		todos.length = 0;
 		this.setState=({
 			todos: todos
 		});
 		console.log('clearITEMS; this.state.todos: ',this.state.todos);
-	}
-    delete(key) {
-        this.props.delete(key);
-    }
-    createTasks(item) {
+	}*/
+    
+    /*createTasks(item) {
 		const todos = this.state.todos;
 		
 		const element = (
@@ -140,9 +119,9 @@ class TodoItems extends Component {
 		this.setState = ({
 			todos: todos
 		});
-    }
+    }*/
     render() {
-		console.log('INSIDE render');
+		/*console.log('INSIDE render');
 		this.clearItems();
         const todoEntries = this.props.entries;
 		todoEntries.forEach(this.createTasks);
@@ -151,29 +130,11 @@ class TodoItems extends Component {
 		//const elementToDrag = this.state.elementToDrag;
 		const listItemsCompleted = completedTasks.map(index => {return index});
 		console.log('INSIDE render; listItems: ', listItems);
-		console.log('INSIDE render; listItemsCompleted: ', listItemsCompleted);
+		console.log('INSIDE render; listItemsCompleted: ', listItemsCompleted);*/
     
         return (
 			<div>
-				<div className='div-list'>
-					<ul className="theList"
-						//onDragOver={e => this.onDragOver(e)}
-						//onDrop={e => this.onDrop(e)}
-						> 
-						{listItems}
-					</ul>
-				</div>
-				<div className='div-list-done'
-						//onDragOver={e => this.onDragOver(e)}
-						//onDrop={e => this.onDrop(e)}
-						>
-					<ul className="theList-done"
-						onDragOver={e => this.onDragOver(e)}
-						onDrop={e => this.onDrop(e)}
-						>
-						{listItemsCompleted}
-					</ul>
-				</div>
+				<TodoTasks entries={this.props.entries} delete={this.props.delete}/>
 			</div>
         );
     }

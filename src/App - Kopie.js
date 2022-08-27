@@ -9,7 +9,7 @@ class App extends Component{
 	constructor(props){
 		super(props)
 		this.state = {
-			task: 0,
+			task: 0;
 		}
 		this.addDateToTask = this.addDateToTask.bind(this);
 	}
@@ -21,9 +21,13 @@ class App extends Component{
 		return(
 			<div className='App'>
 				<TodoList id='todolist-1' className='todolist'/>
+				<TodoItem id='todoitem-1' className='todoitem'>
+					<TodoTask id={this.addDateToTask} className='todotask' />
+				</TodoItem>
+				<TodoItem id='todoitem-2' className='todoitem'>
+					<TodoTask id={this.addDateToTask} className='todotask' />
+				</TodoItem>
 			</div>
-		);
-	}
 	
 }
 
