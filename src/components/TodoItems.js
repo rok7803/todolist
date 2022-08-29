@@ -22,9 +22,9 @@ class TodoItems extends Component {
 	onDrop(event){
 		event.preventDefault();
 		const itemId = event.dataTransfer.getData('item-id');
+		console.log(itemId);
 		
-		const card = document.getElementById(card_id);
-		card.style.display = 'block';
+		//event.target.appendChild(document.getElementById(itemId));
 	}
     
     render() {
