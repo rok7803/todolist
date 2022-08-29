@@ -1,4 +1,4 @@
-import React from 'reacto';
+import React from 'react';
 
 
 
@@ -10,27 +10,16 @@ class TodoTasks extends React.Component{
 		this.onDrag = this.onDrag.bind(this);
 		this.onDragOver = this.onDragOver.bind(this);
 		this.delete = this.delete.bind(this);
+		this.createTasks = this.createTasks.bind(this);
 	}
 	
 	onDrag(event, item){
-		event.preventDefault();
-		const todos = this.state.todos;
-		let draggedTask = this.state.draggedTask;
-		const idKey = 'id-key:'+item.key;
-		let todo = todos.filter( (index) => {
-			console.log('INSIDE onDrag; index.props.id | idKey: ',index.props.id,' | ', idKey);
-			return index.props.id === idKey? index:console.log('No todos');
-		});
-		todo = todo[0];
-		console.log('INSIDE onDrag; todo: ',todo);
-		//draggedTask = draggedTask.assign({},todo);
-		draggedTask[0] = todo;
-		//console.log('INSIDE onDrag; draggedTask: ',draggedTask);
-		//draggedTask.assign({},todo);
-		this.setState=({
-			draggedTask: draggedTask
-		});
-		//console.log('INSIDE onDrag; this.state.draggedTask: ',this.state.draggedTask);
+		//event.preventDefault();
+		const target = event.target;
+		//console.log(event.target.id);
+		//const targetId = event.target.id;
+		event.dataTransfer.setData('item-id', target.id);
+		
 	}
 	onDragOver(event){
 		event.stopPropagation();
@@ -39,13 +28,9 @@ class TodoTasks extends React.Component{
 	delete(key) {
         this.props.delete(key);
     }
-	
-	render(){
-		const items = this.props.entries;
+	createTasks(item) {
 		return(
-		<div>
-			items.map( (item) => {
-				<li key={item.key} id={'id-key:'+item.key} draggable='true' onDrag={(e) => this.onDrag(e, item)} >
+			<li key={item.key} id={'id-key:'+item.key} draggable onDrag={(e) => this.onDrag(e, item)} >
 				<button onClick={() => this.delete(item.key)}>
 					<svg width="24" height="24" viewBox="0 0 24 24">
 						<path d="M0 0h24v24H0z" fill="none"></path>
@@ -56,9 +41,17 @@ class TodoTasks extends React.Component{
 					<input type="checkbox" /> 
 					 {item.text}
 				</label>
-			</li>})
-		</div>
-		)
+			</li>   
+		);
+    }
+	render(){
+		const todoEntries = this.props.entries;
+		const listItems = todoEntries.map(this.createTasks);
+		
+		console.log(todoEntries);
+		if(todoEntries.length > 0)
+			return(listItems);
+		else return null;
 	}
 }
 
