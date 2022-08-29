@@ -8,7 +8,9 @@ var destination = document.querySelector("#container");
 
 ReactDOM.render(
     <div>
-        <App />
+		<React.StrictMode>
+			<App />
+		</React.StrictMode>
     </div>,
     destination
 );
