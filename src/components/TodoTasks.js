@@ -7,6 +7,8 @@ class TodoTasks extends React.Component{
 	constructor(props){
 		super(props)
 		
+		this.header = React.createRef();
+		
 		this.onDrag = this.onDrag.bind(this);
 		this.onDragOver = this.onDragOver.bind(this);
 		this.delete = this.delete.bind(this);
