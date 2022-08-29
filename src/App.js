@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import TodoList from './components/TodoList';
-import TodoItem from './components/TodoItem';
-import TodoTask from './components/TodoTask';
+//import TodoItem from './components/TodoItem';
+//import TodoTask from './components/TodoTask';
 import './components/styles/App.css';
 
 
