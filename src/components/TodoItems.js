@@ -21,7 +21,7 @@ class TodoItems extends Component {
 
 	onDrop(event){
 		event.preventDefault();
-		const card_id = event.dataTransfer.getData('item-id');
+		const itemId = event.dataTransfer.getData('item-id');
 		
 		const card = document.getElementById(card_id);
 		card.style.display = 'block';
