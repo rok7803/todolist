@@ -3,6 +3,9 @@
 	width: 500px;
 	border: solid black 1px;
 }
+.div-list-ul{
+	list-style: none;
+}
 .div-list-done{
 	height: 250px;
 	width: 500px;
