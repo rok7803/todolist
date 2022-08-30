@@ -21,7 +21,7 @@ class TodoItems extends Component {
     onDragOver = (ev) => {
         ev.preventDefault();
     }
-
+	/************Why is it working?*****************/
     onDrop = (ev, cat) => {
 		let id = ev.dataTransfer.getData("id");
 		console.log(id);
@@ -40,6 +40,7 @@ class TodoItems extends Component {
 		   ...this.state,
 		   tasks
 		});*/
+		/***********NOT RECOMMENDET!!********/
 		this.forceUpdate();
     }
 	
