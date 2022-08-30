@@ -20,9 +20,9 @@ class TodoItems extends Component {
 	}
 
 	onDrop(event){
-		event.preventDefault();
+		//event.preventDefault();
 		const itemId = event.dataTransfer.getData('item-id');
-		console.log(itemId);
+		console.log('INSIDE onDrop: ',itemId);
 		
 		//event.target.appendChild(document.getElementById(itemId));
 	}

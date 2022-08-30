@@ -17,10 +17,12 @@ class TodoTasks extends React.Component{
 	
 	onDrag(event, item){
 		//event.preventDefault();
+		const dataTransfer = new DataTransfer();
 		const target = event.target;
-		//console.log(event.target.id);
+		console.log(target.id);
 		//const targetId = event.target.id;
-		event.dataTransfer.setData('item-id', target.id);
+		dataTransfer.setData('item-id', target.id);
+		console.log(dataTransfer.setData('item-id', target.id));
 		
 	}
 	onDragOver(event){
@@ -51,8 +53,12 @@ class TodoTasks extends React.Component{
 		const listItems = todoEntries.map(this.createTasks);
 		
 		console.log(todoEntries);
-		if(todoEntries.length > 0)
+		console.log(listItems);
+		if(todoEntries.length > 0){
+			console.log(listItems[0].props.id);
+			console.log(listItems[0].props.children[0]);
 			return(listItems);
+		}
 		else return null;
 	}
 }
