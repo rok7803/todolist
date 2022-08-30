@@ -3,14 +3,14 @@ import './TodoItems.css';
  
 class TodoItems extends Component {
 	
-	constructor(props){
+	/*constructor(props){
 		super(props)
 		this.state = {
 			tasks: []
 		}
 		//this.addItemsToState = this.addItemsToState.bind(this);
 		//this.getItemsFromState = this.getItemsFromState.bind(this);
-	}
+	}*/
 
     onDragStart = (ev, id) => {
         console.log('dragstart:',id);
@@ -34,43 +34,23 @@ class TodoItems extends Component {
 			}
 			return task;
 		});
-		console.log(tasks);
+		console.log('INSIDE onDrop:',tasks);
 		//this.props.items(tasks);
-		this.setState=({
+		/*this.setState=({
 		   ...this.state,
 		   tasks
-		});
+		});*/
+		this.forceUpdate();
     }
-	/*addItemsToState = (items) =>{
-		return this.setState=({
-			tasks: items
-		});
-	}*/
-	/*getItemsFromState = () => {
-		this.props.entries.forEach ((t) => {
-            tasks[t.category].push(
-                <div key={t.name} 
-                    onDragStart = {(e) => this.onDragStart(e, t.name)}
-                    draggable
-                    className="draggable"
-                    style = {{backgroundColor: t.bgcolor}}
-                >
-                    {t.name}
-                </div>
-            );
-        });
-	}*/
+	
     render() {
-        var tasks = {
+        let tasks = {
             wip: [],
             complete: []
         }
-		console.log(this.state.tasks);
+		console.log('this.state:',this.state);
 		console.log(this.props.entries);
-		//this.addItemsToState(this.props.entries);
-		
-		//this.getItemsFromState();
-		
+				
         this.props.entries.forEach ((t) => {
             tasks[t.category].push(
                 <div key={t.name} 
