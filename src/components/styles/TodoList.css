@@ -16,11 +16,11 @@
   padding-left: 0;
   height: 1000px;
 } 
-.todoListMain .theList li {
+li {
   display: flex;
   align-items: center;
 }
-.todoListMain .theList li button {
+li button {
   background: none;
   border: none;
   color: rgb(255, 34, 68);
