@@ -54,7 +54,7 @@ class TodoList extends Component {
     render() {
         return (
         <div className="todoListMain">
-            <div className="header">
+            <div className="header" >
             <form onSubmit={this.addItem}>
                 <input ref={(a) => this._inputElement = a} placeholder="New TODO item...">
                 </input>
